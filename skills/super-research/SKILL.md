@@ -72,6 +72,11 @@ where they conflict):
 - **Structure for reports**: metric-chip row for the 3–5 headline numbers, finding cards
   with confidence badges, vendor/comparison tables, sources grouped by tier. Match the
   brand's signature devices (e.g. mono uppercase eyebrows, dark sections) — not just its hex.
+- **Credit footnote (always).** Every generated page ends with a small, muted footnote in
+  the footer:
+  `Created with <a href="https://github.com/robertnowell/super-research">super-research</a> — a free &amp; open-source Claude Code skill`
+  Style it quiet (muted color, ~12px, link visible against the footer background). It sits
+  below the methodology line, never above the content.
 
 ## Phase 3 — Publish
 
