@@ -1,7 +1,9 @@
 ---
-name: deep-research
-description: "Deep multi-source research with source quality evaluation and hard quality gates. Launches parallel research agents, classifies sources by tier, cross-references findings, and synthesizes structured reports. Use when asked to research, investigate, or deeply analyze any topic requiring multi-source evidence."
+name: super-research-engine
+description: "Internal research engine invoked by super-research (Phase 1). Bounded multi-agent research with source tier-classification, cross-referencing, and hard quality gates. NOT a direct research front door — for research requests use the `super-research` skill instead. (Still works standalone if invoked by name.)"
 argument-hint: "[quick|standard|thorough|angles] <research question or topic>"
+allowed-tools: Bash, Write, Read, WebFetch, WebSearch, Agent
+disallowed-tools: Workflow
 ---
 
 # Deep Research
@@ -187,7 +189,7 @@ Enforce ALL of these BEFORE presenting the report to the user. These are not sug
    - "What is WebTransport?" → `webtransport-overview`
    - Kebab-case, lowercase, alphanumerics and hyphens only, ~40 chars max. No filler words ("what-is", "should-we", "how-to").
 
-2. **Build the path**: `~/Documents/deep-research/YYYY-MM-DD-<slug>.md`. Expand `~` to the absolute home path. Create `~/Documents/deep-research/` if it doesn't exist.
+2. **Build the path**: `~/Documents/super-research/YYYY-MM-DD-<slug>.md`. Expand `~` to the absolute home path. Create `~/Documents/super-research/` if it doesn't exist.
 
 3. **Write the full report** using the Write tool — the same content you're about to display inline (Executive Summary, Key Findings with sources, Research Gaps, confidence labels, quality gate disclosures). Include a frontmatter block at the top:
    ```yaml
@@ -204,7 +206,7 @@ Enforce ALL of these BEFORE presenting the report to the user. These are not sug
 
 5. **After displaying the report**, print a single final line with the re-view command — ready to copy-paste into the terminal:
    ```
-   glow /Users/<you>/Documents/deep-research/2026-04-14-sqlite-vs-postgres.md
+   glow /Users/<you>/Documents/super-research/2026-04-14-sqlite-vs-postgres.md
    ```
    (`glow` is a terminal-native markdown renderer — `brew install glow` if not present. Any markdown viewer works: `bat`, `mdcat`, `code`, etc. The point is the path is prefixed with a ready command rather than bare text.)
 

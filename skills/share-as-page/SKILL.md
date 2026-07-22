@@ -83,15 +83,35 @@ Fix the HTML and re-shoot until it's right. Only then deploy. (Optionally shoot 
 width too, e.g. `... /tmp/m.png 420 900`, to catch mobile breakage.) This gate is not optional —
 the most common failures (off-center columns, missing logo, low contrast) are invisible until rendered.
 
-### 5. Deploy
+### 5. Deploy — **and verify it's public before you call it ready**
 ```bash
 bash ~/.claude/skills/share-as-page/scripts/deploy.sh <project-dir>
 ```
-Prints the live `*.vercel.app` URL. (Primary = Vercel, proven non-interactive. Fallbacks below.)
+`deploy.sh` prints TWO lines and self-checks reachability:
+```
+https://<slug>-…​.vercel.app
+ACCESS: public | protected | unreachable
+```
+**Never tell the user "the link is ready" until `ACCESS: public`.** A deploy can succeed
+while the URL is gated — Vercel **team Deployment Protection** puts every deployment behind
+a login wall (the fetch lands on a "Login – Vercel" page, often HTTP 200), so the link works
+for you but 401s every external visitor. The script detects this and exits `3`.
 
-### 6. Hand off
-Give the user the URL and offer **one revision pass**. Mention they can ⌘P → Save as PDF
-(the print CSS is wired). If any benchmark/number came from the conversation, don't invent new ones.
+If `ACCESS: protected`, **flag it and offer to fix it** — don't silently hand over a dead link:
+```bash
+bash ~/.claude/skills/share-as-page/scripts/vercel-unprotect.sh <project-dir> <url>
+```
+This disables Vercel Authentication for **that one project only** (scoped by
+`.vercel/project.json`; team default + other projects untouched; reversible) and re-verifies
+the URL is now public. Because it changes a protection setting on the user's account, **ask
+before running it** unless they've already said "make it public." Alternative: Dashboard →
+Project → Settings → Deployment Protection → Vercel Authentication → Disabled.
+If `ACCESS: unreachable`, wait a moment for propagation and re-check; don't share it yet.
+
+### 6. Hand off — only after ACCESS: public
+Give the user the verified-public URL and offer **one revision pass**. Mention they can
+⌘P → Save as PDF (the print CSS is wired). If any benchmark/number came from the
+conversation, don't invent new ones.
 
 ## Hosting reference
 - **Vercel (default):** `deploy.sh` runs `vercel deploy --prod --yes`; reads `VERCEL_TOKEN`
